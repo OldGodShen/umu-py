@@ -58,12 +58,13 @@ def getanswer(element_id,question_ids):
                 elif rightanswer_values_type == "right_answer_content":
                     content = rightanswer_values_answer
                     answer_type = "input"
+        answer = []
         if answer_type == "radio":
-            answer={"type":"radio","question_id":rightanswer_key,"answer_ids":answer_ids,"content":"","level":2}
+            answer.append({"type":"radio","question_id":rightanswer_key,"answer_ids":answer_ids,"content":"","level":2})
         elif answer_type == "checkbox":
-            answer={"type":"checkbox","question_id":rightanswer_key,"answer_ids":answer_ids,"content":"","level":2}
+            answer.append({"type":"checkbox","question_id":rightanswer_key,"answer_ids":answer_ids,"content":"","level":2})
         elif answer_type == "input":
-            answer={"type":"input","question_id":rightanswer_key,"answer_ids":"[]","content":"" + content + "","level":2}
+            answer.append({"type":"input","question_id":rightanswer_key,"answer_ids":"[]","content":"" + content + "","level":2})
             
 
         
