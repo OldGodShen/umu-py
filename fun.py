@@ -67,5 +67,13 @@ def getanswer(element_id,question_ids):
     answer_json = json.dumps(answer)
     return answer_json
             
+def startexam(element_id,exam_submit_id,umuU,JSESSID):
+    url = "https://m.umu.cn/megrez/exam/v1/startExam"
 
-        
+    payload = "session_id=" + element_id + "&student_id=0&exam_submit_id=" + exam_submit_id
+    headers = {
+        "Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID,
+        "content-type": "application/x-www-form-urlencoded"
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
