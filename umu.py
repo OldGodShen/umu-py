@@ -95,13 +95,46 @@ def getanswertext(answertext):
     answer_json = json.dumps(answer)
     return answer_json
             
-def startexam(element_id,exam_submit_id,umuU,JSESSID):
+def startexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     url = "https://m.umu.cn/megrez/exam/v1/startExam"
 
-    payload = "session_id=" + element_id + "&student_id=0&exam_submit_id=" + exam_submit_id
+    payload = "session_id=" + element_id + "&student_id=" + student_id + "&exam_submit_id=" + exam_submit_id
     headers = {
         "Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID,
         "content-type": "application/x-www-form-urlencoded"
     }
 
     response = requests.request("POST", url, data=payload, headers=headers)
+    return response.text
+
+def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
+    url = "https://m.umu.cn/megrez/exam/v1/submitExam"
+
+    payload = "session_id=" + element_id + "&status=2&name=&submit_type=2&student_id=" + student_id + "&exam_submit_id=" + exam_submit_id
+    headers = {
+        "Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID,
+        "content-type": "application/x-www-form-urlencoded"
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+    return response.text
+
+def getelement_id(umuU,JSESSID,quiz):
+    url = "https://m.umu.cn/session/quiz/" + quiz
+
+    headers = {"Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID}
+
+    response = requests.request("GET", url, headers=headers)
+    return response.text
+
+def retakeexam(umuU,JSESSID,element_id):
+    url = "https://m.umu.cn/api/exam/takeexamagain"
+
+    payload = "session_id=" + element_id
+    headers = {
+        "Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID,
+        "content-type": "application/x-www-form-urlencoded"
+    }
+
+    response = requests.request("POST", url, data=payload, headers=headers)
+    return response.text
