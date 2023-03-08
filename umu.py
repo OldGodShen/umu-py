@@ -119,7 +119,7 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     response = requests.request("POST", url, data=payload, headers=headers)
     return response.text
 
-def getelement_id(umuU,JSESSID,quiz):
+def getexamid(umuU,JSESSID,quiz):
     url = "https://m.umu.cn/session/quiz/" + quiz
 
     headers = {"Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID}
