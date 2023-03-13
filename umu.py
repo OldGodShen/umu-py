@@ -43,7 +43,7 @@ def getanswer(username,passwd,element_id,question_ids):
         try:
             rightanswer_data = response_dict['data']
         except:
-            return 404,"获取答案失败"
+            return 4,"获取答案失败"
 
         try:
             answer = []
@@ -114,9 +114,13 @@ def startexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     }
 
     response = requests.request("POST", url, data=payload, headers=headers)
+    response_dict = json.loads(response.text)
 
-    
-    return response.headers
+    try:
+        start_time = response_dict['data']['time_setting']['start_time_stamp']
+        return 0,start_time
+    except:
+        return 6
 
 def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     url = "https://m.umu.cn/megrez/exam/v1/submitExam"
@@ -128,7 +132,13 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     }
 
     response = requests.request("POST", url, data=payload, headers=headers)
-    return response.text
+    response_dict = json.loads(response.text)
+
+    try:
+        error_code = 0
+        return 0
+    except:
+        return 7
 
 def getexamid(umuU,JSESSID,quiz):
     url = "https://m.umu.cn/session/quiz/" + quiz
@@ -156,4 +166,9 @@ def retakeexam(umuU,JSESSID,element_id):
     }
 
     response = requests.request("POST", url, data=payload, headers=headers)
-    return response.text
+    
+    try:
+        response_dict= json.loads(response.text)
+        return 0
+    except:
+        return 5
