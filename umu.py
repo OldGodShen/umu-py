@@ -143,7 +143,7 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
         "content-type": "application/x-www-form-urlencoded"
     }
 
-    time.sleep(5000)
+    time.sleep(5)
     response = requests.request("POST", url, data=payload, headers=headers)
 
     try:
