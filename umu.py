@@ -2,6 +2,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import time
+requests.packages.urllib3.disable_warnings()
 
 def login(username,passwd):
 
@@ -142,7 +143,7 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
         "content-type": "application/x-www-form-urlencoded"
     }
 
-    time.sleep(5)
+    time.sleep(0)
 
     try:
         requests.request("POST", url, data=payload, headers=headers)
@@ -167,9 +168,13 @@ def getexamid(umuU,JSESSID,quiz):
             pagedata_end_loc = pagedata_end_loc + 7
         else:
             pagedata_end_loc = pagedata_begin.find('_dwt":"exam"') + 13
-    pagedata = json.loads(pagedata_begin[0:pagedata_end_loc])
-    element_id = int(pagedata['data']['quizLegacyData']['session_info']['sessionId'])
-    exam_submit_id = pagedata['data']['exam_submit_id']
+    
+    try:
+        pagedata = json.loads(pagedata_begin[0:pagedata_end_loc])
+        element_id = int(pagedata['data']['quizLegacyData']['session_info']['sessionId'])
+        exam_submit_id = pagedata['data']['exam_submit_id']
+    except:
+        exit("获取考试号错误")
 
     return element_id,exam_submit_id
 
@@ -224,7 +229,7 @@ def getquestionlisttext(questionlisttext):
         exit("解析答案列表错误")
 
 def getanswerfromgithub_shen(element_id):
-    url = "https://raw.githubusercontent.com/OldGodShen/umu-json/main/" + element_id
+    url = "https://raw.githubusercontent.com/OldGodShen/umu-json/main/" + str(element_id) + ".json"
 
-    response = requests.request("GET", url)
-    return response
+    response = requests.request("GET", url, verify=False)
+    return response.text

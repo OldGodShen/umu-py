@@ -2,15 +2,14 @@ import umu
 
 u = input("输入用户名:")
 p = input("输入密码:")
-quiz = input("输入考试号:")
-
 s,u,J = umu.login(u,p)
+
+quiz = input("输入考试号:")
 e,ex = umu.getexamid(u,J,quiz)
 
 while True:
     try:
-        way = 0
-        way = int(input("使用GitHub上的OldGodShen/umu-json答案库(0),使用已完成账号获取答案(1) 默认0 :"))
+        way = int(input("使用GitHub上的OldGodShen/umu-json答案库(0),使用已完成账号获取答案(1):"))
         if way == 0 or way == 1:
             break
         else:
@@ -20,7 +19,7 @@ while True:
 
 if way == 0:
     a = umu.getanswerfromgithub_shen(e)
-elif way ==1:
+elif way == 1:
     fu = input("输入已完成该考试的用户名:")
     fp = input("输入已完成该考试的密码:")
     q = umu.getquestionlist(u,J,e)
