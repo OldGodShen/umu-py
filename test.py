@@ -25,7 +25,7 @@ elif way == 1:
     fu = input("输入已完成该考试的用户名:")
     fp = input("输入已完成该考试的密码:")
     q = umu.getquestionlist(u,J,e)
-    a = umu.getanswer(u,p,e,q)
+    a = umu.getanswer(fu,fp,e,q)
 else:
     exit("获取答案时发生了未知错误")
 
