@@ -65,39 +65,7 @@ def getanswer(username,passwd,element_id,question_ids):
             elif answer_type == "input":
                 answer.append({"type":"input","question_id":int(rightanswer_key),"answer_ids":[],"content":"" + content + "","level":2})
         answer_json = json.dumps(answer)
-        return answer_json
-    except:
-        exit("解析答案失败")
-
-def getanswertext(answertext):
-
-    try:
-        rightanswer_data = answertext['data']
-    except:
-        exit("答案格式错误")
-
-    try:
-        answer = []
-        for rightanswer_key,rightanswer_value in rightanswer_data.items():
-            answer_ids = []
-            for rightanswer_values in rightanswer_value:
-                for rightanswer_values_type,rightanswer_values_right in rightanswer_values.items():
-                    if rightanswer_values_type == "right_answer_id":
-                        answer_ids.append(rightanswer_values_right)
-                        if len(rightanswer_value) == 1:
-                            answer_type = "radio"
-                        else:
-                            answer_type = "checkbox"
-                    elif rightanswer_values_type == "right_answer_content":
-                        content = rightanswer_values_right
-                        answer_type = "input"
-            if answer_type == "radio":
-                answer.append({"type":"radio","question_id":int(rightanswer_key),"answer_ids":answer_ids,"content":"","level":2})
-            elif answer_type == "checkbox":
-                answer.append({"type":"checkbox","question_id":int(rightanswer_key),"answer_ids":answer_ids,"content":"","level":2})
-            elif answer_type == "input":
-                answer.append({"type":"input","question_id":int(rightanswer_key),"answer_ids":[],"content":"" + content + "","level":2})
-        answer_json = json.dumps(answer)
+        print("从已完成用户获取答案成功")
         return answer_json
     except:
         exit("解析答案失败")
@@ -143,7 +111,7 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
         "content-type": "application/x-www-form-urlencoded"
     }
 
-    time.sleep(0)
+    time.sleep(5)
 
     try:
         requests.request("POST", url, data=payload, headers=headers)
@@ -174,7 +142,7 @@ def getexamid(umuU,JSESSID,quiz):
         element_id = int(pagedata['data']['quizLegacyData']['session_info']['sessionId'])
         exam_submit_id = pagedata['data']['exam_submit_id']
     except:
-        exit("获取考试号错误")
+        exit("获取考试号错误/获取考试提交号错误")
 
     return element_id,exam_submit_id
 
@@ -215,21 +183,19 @@ def getquestionlist(umuU,JSESSID,element_id):
     except:
         exit("获取问题列表错误")
 
-def getquestionlisttext(questionlisttext):
-    try:
-        response_dict = questionlisttext
-        list = response_dict['data']['list']
-        questionlist = []
-        for question in list:
-            questionlist.append(question['id'])
-        questionlist_str = str(questionlist)[1:-1]
-        questionlist_str = questionlist_str.replace(" ","")
-        return questionlist_str
-    except:
-        exit("解析答案列表错误")
-
 def getanswerfromgithub_shen(element_id):
     url = "https://raw.githubusercontent.com/OldGodShen/umu-json/main/" + str(element_id) + ".json"
 
-    response = requests.request("GET", url, verify=False)
+    try:
+        response = requests.request("GET", url, verify=False)
+        print("从GitHub获取答案成功")
+        return response.text
+    except:
+        print("从GitHub获取答案失败，正在从Gitee镜像仓库获取")
+        return getanswerfromgitee_shen(element_id)
+
+def getanswerfromgitee_shen(element_id):
+    url = "https://gitee.com/OldGodShen/umu-json/raw/main/" + str(element_id) + ".json"
+
+    response = requests.request("GET", url)
     return response.text

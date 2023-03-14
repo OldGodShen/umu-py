@@ -2,14 +2,16 @@ import umu
 
 u = input("输入用户名:")
 p = input("输入密码:")
+print("正在尝试登录")
 s,u,J = umu.login(u,p)
 
-quiz = input("输入考试号:")
+quiz = input("输入考试地址:")
+print("正在获取考试号")
 e,ex = umu.getexamid(u,J,quiz)
 
 while True:
     try:
-        way = int(input("使用GitHub上的OldGodShen/umu-json答案库(0),使用已完成账号获取答案(1):"))
+        way = int(input("使用GitHub/Gitee上的OldGodShen/umu-json答案库(0),使用已完成账号获取答案(1):"))
         if way == 0 or way == 1:
             break
         else:
@@ -27,8 +29,15 @@ elif way == 1:
 else:
     exit("获取答案时发生了未知错误")
 
+print("正在重新开始考试")
 umu.retakeexam(u,J,e)
+print("正在获取考试提交号")
 e,ex = umu.getexamid(u,J,quiz)
+print("正在开始考试")
 st = umu.startexam(u,J,e,s,ex)
+print("正在提交答案")
 umu.saveanswer(u,J,e,a,s,ex)
+print("正在结束考试")
 umu.endexam(u,J,e,s,ex)
+print("已完成考试")
+exit(0)
