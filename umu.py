@@ -163,7 +163,7 @@ def retakeexam(umuU,JSESSID,element_id):
         exit("重新开始考试错误")
 
 def getquestionlist(umuU,JSESSID,element_id):
-    url = "https://www.umu.cn/napi/v1/quiz/question-list"
+    url = "https://m.umu.cn/napi/v1/quiz/question-list"
 
     querystring = {"_type":"1","element_id":element_id,"page":"1","size":"100"}
 
