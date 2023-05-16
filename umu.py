@@ -118,12 +118,10 @@ def endexam(umuU,JSESSID,element_id,student_id,exam_submit_id):
     except:
         exit("上传答案错误")
 
-def getexamid(umuU,JSESSID,quiz):
+def getexamid(quiz):
     url = "https://m.umu.cn/session/quiz/" + quiz
 
-    headers = {"Cookie": "umuU=" + umuU + ";JSESSID=" + JSESSID}
-
-    response = requests.request("GET", url, headers=headers)
+    response = requests.request("GET", url)
 
     script = BeautifulSoup(response.text,'lxml')
     pagedata_begin = str(script.html.script).replace("<script>var pageData=","")

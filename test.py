@@ -32,7 +32,7 @@ else:
 print("正在重新开始考试")
 umu.retakeexam(u,J,e)
 print("正在获取考试提交号")
-e,ex = umu.getexamid(u,J,quiz)
+e,ex = umu.getexamid(quiz)
 print("正在开始考试")
 st = umu.startexam(u,J,e,s,ex)
 print("正在提交答案")
